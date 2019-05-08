@@ -1,8 +1,7 @@
 // Global Game variable
-var enemyHealth,
-    enemy;
-
+var enemyHealth, enemy;
 var score = numberOfEnemiesSlain = numberOfTimesRan = 0;
+
 /**
  * Game states: 0 = Main Menu
  *              1 = In Battle
@@ -113,16 +112,9 @@ function runGameLoop() {
 }
 
 function startGame() {
+    // playerHealth += %highscore;
+    // playerAttackDamage += %highscore;
+
     // Display: "Welcome to the Dungeon!"
     runGameLoop();
 }
-
-
-//         GAME: while (running) {
-
-//                
-//                 
-//             }
-//         in.close();
-//     }
-// }
