@@ -9,12 +9,12 @@ window.onload = () => {
     displayMainMenu();
 }
 
-function displayMainMenu(){
+function displayMainMenu() {
     document.getElementById("activity-display").innerHTML = '<h1>STYC</h1>\
         A text-based hack & slash adventure game.\
         <br>Something Something\
         <br>blah blah blah\
-        <br>Click "New Game" to being!';  
+        <br>Click "New Game" to being!';
 }
 
 // Game Object
@@ -116,18 +116,19 @@ function Game() {
         let damageTaken = Math.floor(Math.random() * enemyAttackDamage);
 
         enemyHealth -= damageDealt;
-        playerHealth -= damageTaken;
         if (enemyHealth < 0) enemyHealth = 0;
+        playerHealth -= damageTaken;
+        if (playerHealth < 0) playerHealth = 0;
 
         display.innerHTML += "<hr>You strike the " + enemy + " for " + damageDealt + " damage.";
         display.innerHTML += "<br>You recieve " + damageTaken + " in retalization!";
 
         this.displayStats();
-        if (playerHealth < 1) {
+        if (playerHealth == 0) {
             display.innerHTML += "<hr>You have taken too much damage, you are too weak to go on!";
             this.cueGameOver();
         }
-        if (enemyHealth < 1) {
+        if (enemyHealth == 0) {
             numberOfEnemiesSlain++;
             playerLevel++;
             score += 200;
@@ -161,10 +162,11 @@ function Game() {
     }
 
     this.clickedRun = () => {
-        if(score == 0){
+        numberOfTimesRan++;
+        if (score == 0) {
             display.innerHTML += "<small>At this point, you might as well start over.</small>"
         }
-        score -= 75; 
+        score -= 75;
         if (score < 0) score = 0;
         numberOfTimesRan++;
         display.innerHTML += "<hr>You ran away from the " + enemy + ".";
@@ -175,14 +177,16 @@ function Game() {
     this.cueGameOver = (died) => {
         gameState = 0;
         this.changeButtons(gameState);
-            display.innerHTML += (died) ? "<hr>You limp out of the dungeon, weak from battle." 
-                : "<hr>Ending Score, Number of Enemies Slain, Number of Times ran";
+        display.innerHTML += (died) ? "<hr>You limp out of the dungeon, weak from battle."
+            : "<hr>Ending Score: " + score + "<br>Number of Enemies Slain: " + 
+                numberOfEnemiesSlain + "<br>Number of Times ran: " + 
+                numberOfTimesRan;
         // Get score from database
         // if score > dbscore {
         //      Update Database with new score
         //      Display: "New Highscore!";
         // }
-        display.innerHTML += "<br>~~~~~ Thanks for playing ~~~~~";
+        display.innerHTML += "<br><br>~~~~~~~~~~ Thanks for playing ~~~~~~~~~";
         updateScroll();
     }
 
@@ -207,7 +211,7 @@ function createGameFrame() {
         </div>'
 }
 
-function updateScroll(){
+function updateScroll() {
     var element = document.getElementById("activity-display");
     element.scrollTop = element.scrollHeight;
 }
