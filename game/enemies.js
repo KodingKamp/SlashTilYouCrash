@@ -1,7 +1,7 @@
 // Enemy variables
 var maxEnemyHealth = 75;
-var enemyAttackDamage = 25 + playerLevel * 1.5;
-var enemies = (
+var enemyAttackDamage = 25;
+var enemies = [
     "Skeleton",
     "Zombie",
     "Warrior",
@@ -22,4 +22,4 @@ var enemies = (
     "Incubus",
     "Mage",
     "Stone Giant"
-);
+];
