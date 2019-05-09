@@ -33,6 +33,7 @@ function Game() {
         numHealthPotions = 3;
         healthPotionHealAmount = 30;
         healthPotionDropChance = 25; // Percentage
+        score = 0;
     };
 
     /**
@@ -150,6 +151,8 @@ function Game() {
             numHealthPotions--;
             display.innerHTML += "<br>You drink a health potion, healing yourself for " + healthPotionHealAmount + ".";
             display.innerHTML += "You have " + numHealthPotions + " health potions left.";
+            if (playerHealth > playerMaxHealth)
+                playerHealth = playerMaxHealth;
         }
         else
             display.innerHTML += "<br>You have no health potions left! Defeat enemies for a chance to get one!";
