@@ -149,8 +149,8 @@ function Game() {
         else if (numHealthPotions > 0 && playerHealth < playerMaxHealth) {
             playerHealth += healthPotionHealAmount;
             numHealthPotions--;
-            display.innerHTML += "<br>You drink a health potion, healing yourself for " + healthPotionHealAmount + ".";
-            display.innerHTML += "You have " + numHealthPotions + " health potions left.";
+            display.innerHTML += "<br>You drink a health potion, healing for " + healthPotionHealAmount + ".";
+            display.innerHTML += "<br>You have " + numHealthPotions + " health potions left.";
             if (playerHealth > playerMaxHealth)
                 playerHealth = playerMaxHealth;
         }
