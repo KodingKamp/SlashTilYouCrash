@@ -203,9 +203,12 @@ function createGameFrame() {
         '<p id="activity-display"></p>\
        <div id="button-container">\
             <button class="btn-100 menu-btn" onclick="game.startGame()">New Game</button>\
-            <button class="btn-33 game-btn" onclick="game.clickedAttack()">Attack</button>\
-            <button class="btn-33 game-btn" onclick="game.clickedDrinkPotion()">Drink Potion</button>\
-            <button class="btn-33 game-btn" onclick="game.clickedRun()">Run</button>\
+            <button class="btn-33 game-btn" onclick="game.clickedAttack()">\
+            <img class="game-btn-icon" src="icons/attack.png">Attack</button>\
+            <button class="btn-33 game-btn" onclick="game.clickedDrinkPotion()">\
+            <img class="game-btn-icon" src="icons/potion.png">Potion</button>\
+            <button class="btn-33 game-btn" onclick="game.clickedRun()">\
+            <img class="game-btn-icon" src="icons/run.png">Run</button>\
             <button class="btn-50 continue-btn" onclick="game.runGameLoop()">Continue</button>\
             <button class="btn-50 continue-btn" onclick="game.cueGameOver(false)">End Game</button>\
         </div>'
