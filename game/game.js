@@ -186,7 +186,7 @@ function Game() {
         //      Update Database with new score
         //      Display: "New Highscore!";
         // }
-        display.innerHTML += "<br><br>~~~~~~~~~~ Thanks for playing ~~~~~~~~~";
+        display.innerHTML += "<br><br> ~~~~~~~~~ Thanks for playing ~~~~~~~~~";
         updateScroll();
     }
 
