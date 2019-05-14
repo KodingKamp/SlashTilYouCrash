@@ -11,7 +11,7 @@ window.onload = () => {
 
 function displayMainMenu() {
     document.getElementById("activity-display").innerHTML = '<h1>STYC</h1>\
-        A text-based hack & slash adventure game.\
+        STYC, Slash Til You Crash, is text-based hack & slash adventure game.\
         <br>Something Something\
         <br>blah blah blah\
         <br>Click "New Game" to being!';
@@ -42,9 +42,9 @@ function Game() {
      *              2 = Post Battle
      */
     this.changeButtons = () => {
-        let mb = document.getElementsByClassName("menu-btn");
-        let gb = document.getElementsByClassName("game-btn");
-        let cb = document.getElementsByClassName("continue-btn");
+        let mb = document.getElementsByClassName("btn-100");
+        let gb = document.getElementsByClassName("btn-33");
+        let cb = document.getElementsByClassName("btn-50");
 
         // For now, this will toggle the buttons' display.
         // Future edit: remove/replace buttons as states change
@@ -67,7 +67,7 @@ function Game() {
         }
     }
 
-    // Function for toggling array of elements' displays
+    // Function for toggling array of button elements' displays (hide/unhide)
     this.toggleDisplay = function (buttons, display) {
         for (i = 0; i < buttons.length; i++) {
             buttons[i].style.display =
@@ -116,20 +116,22 @@ function Game() {
         let damageTaken = Math.floor(Math.random() * enemyAttackDamage);
 
         enemyHealth -= damageDealt;
-        if (enemyHealth < 0) enemyHealth = 0;
+        if (enemyHealth < 0) {
+            enemyHealth = 0;
+            numberOfEnemiesSlain++;
+        }
         playerHealth -= damageTaken;
         if (playerHealth < 0) playerHealth = 0;
 
         display.innerHTML += "<hr>You strike the " + enemy + " for " + damageDealt + " damage.";
-        display.innerHTML += "<br>You recieve " + damageTaken + " in retalization!";
+        display.innerHTML += "<br>You recieve " + damageTaken + " in retaliation!";
 
         this.displayStats();
         if (playerHealth == 0) {
             display.innerHTML += "<hr>You have taken too much damage, you are too weak to go on!";
             this.cueGameOver();
         }
-        if (enemyHealth == 0) {
-            numberOfEnemiesSlain++;
+        else if (enemyHealth == 0) {
             playerLevel++;
             score += 200;
             display.innerHTML += "<hr>The " + enemy + " was defeated!";
@@ -150,7 +152,7 @@ function Game() {
         else if (numHealthPotions > 0 && playerHealth < playerMaxHealth) {
             playerHealth += healthPotionHealAmount;
             numHealthPotions--;
-            display.innerHTML += "<br>You drink a health potion, healing for " + healthPotionHealAmount + ".";
+            display.innerHTML += "<hr>You drink a health potion, healing for " + healthPotionHealAmount + ".";
             display.innerHTML += "<br>You have " + numHealthPotions + " health potions left.";
             if (playerHealth > playerMaxHealth)
                 playerHealth = playerMaxHealth;
@@ -178,9 +180,9 @@ function Game() {
         gameState = 0;
         this.changeButtons(gameState);
         display.innerHTML += (died) ? "<hr>You limp out of the dungeon, weak from battle."
-            : "<hr>Ending Score: " + score + "<br>Number of Enemies Slain: " + 
-                numberOfEnemiesSlain + "<br>Number of Times ran: " + 
-                numberOfTimesRan;
+            : "<hr>Ending Score: " + score + "<br>Number of Enemies Slain: " +
+            numberOfEnemiesSlain + "<br>Number of Times ran: " +
+            numberOfTimesRan;
         // Get score from database
         // if score > dbscore {
         //      Update Database with new score
@@ -200,17 +202,18 @@ function Game() {
 
 function createGameFrame() {
     document.getElementById("game-frame").innerHTML =
-        '<p id="activity-display"></p>\
+        '<div id="stats-display"></div>\
+        <p id="activity-display"></p>\
        <div id="button-container">\
-            <button class="btn-100 menu-btn" onclick="game.startGame()">New Game</button>\
+            <button class="btn-100 game-btn" onclick="game.startGame()">New Game</button>\
             <button class="btn-33 game-btn" onclick="game.clickedAttack()">\
             <img class="game-btn-icon" src="icons/attack.png">Attack</button>\
             <button class="btn-33 game-btn" onclick="game.clickedDrinkPotion()">\
             <img class="game-btn-icon" src="icons/potion.png">Potion</button>\
             <button class="btn-33 game-btn" onclick="game.clickedRun()">\
             <img class="game-btn-icon" src="icons/run.png">Run</button>\
-            <button class="btn-50 continue-btn" onclick="game.runGameLoop()">Continue</button>\
-            <button class="btn-50 continue-btn" onclick="game.cueGameOver(false)">End Game</button>\
+            <button class="btn-50 game-btn" onclick="game.runGameLoop()">Continue</button>\
+            <button class="btn-50 game-btn" onclick="game.cueGameOver(false)">End Game</button>\
         </div>'
 }
 
