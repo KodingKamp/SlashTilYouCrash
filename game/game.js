@@ -9,6 +9,7 @@ window.onload = () => {
     displayMainMenu();
 }
 
+// Main Menu text
 function displayMainMenu() {
     document.getElementById("activity-display").innerHTML = '<h1>STYC</h1>\
         STYC, Slash Til You Crash, is text-based hack & slash adventure game.\
@@ -19,21 +20,23 @@ function displayMainMenu() {
 
 // Game Object
 function Game() {
-    var enemyHealth, enemy;
-    var gameState = score = numberOfEnemiesSlain = numberOfTimesRan = 0;
+    var enemyHealth, enemy, score, numberOfEnemiesSlain, numberOfTimesRan, enemyTempMax;
+    var gameState = 0;
     var display = document.getElementById("activity-display");
 
     enemyAttackDamage += (playerLevel * 1.5);
 
-    this.setPlayerDefaults = () => {
+    this.resetDefaults = () => {
         playerLevel = 1;
-        playerMaxHealth = 100 + (playerLevel - 1) * 3;
+        playerMaxHealth = 100;
         playerHealth = playerMaxHealth;
-        playerAttackDamage = 40 + (playerLevel - 1) * 3;
+        playerAttackDamage = 40;
         numHealthPotions = 3;
         healthPotionHealAmount = 30;
         healthPotionDropChance = 25; // Percentage
         score = 0;
+        numberOfEnemiesSlain = 0;
+        numberOfTimesRan = 0;
     };
 
     /**
@@ -42,9 +45,9 @@ function Game() {
      *              2 = Post Battle
      */
     this.changeButtons = () => {
-        let mb = document.getElementsByClassName("btn-100");
-        let gb = document.getElementsByClassName("btn-33");
-        let cb = document.getElementsByClassName("btn-50");
+        let mb = document.getElementsByClassName("menu-btn");
+        let gb = document.getElementsByClassName("combat-btn");
+        let cb = document.getElementsByClassName("ooc-btn");
 
         // For now, this will toggle the buttons' display.
         // Future edit: remove/replace buttons as states change
@@ -79,7 +82,7 @@ function Game() {
     this.startGame = () => {
         // DB NEEDED: playerHealth += %highscore;
         // DB NEEDED: playerAttackDamage += %highscore;
-        this.setPlayerDefaults();
+        this.resetDefaults();
         this.runGameLoop();
     }
 
@@ -97,34 +100,37 @@ function Game() {
 
     // Function for creating new encounter, ran at the beginning of the game loop.
     this.createEnemy = () => {
-        enemyHealth = Math.ceil(Math.random() * maxEnemyHealth + playerLevel * 4);
+        enemyHealth = Math.ceil(Math.random() * maxEnemyHealth + playerLevel * 2.5);
+        enemyTempMax = enemyHealth;
         enemy = enemies[Math.floor(Math.random() * enemies.length)];
         display.innerHTML += "<hr>" + enemy + " has appeared!";
     }
 
     // Function for displaying current game stats, ran at the beginning of the game loop.
     this.displayStats = () => {
-        display.innerHTML += "<hr> >  Your HP: " + playerHealth;
-        display.innerHTML += "<br> >  " + enemy + "'s HP: " + enemyHealth;
+        display.innerHTML += "<hr> >  Your HP: <player-hp>" + playerHealth + "</player-hp>/<player-hp>" + playerMaxHealth + "</player-hp>";
+        display.innerHTML += "<br> >  " + enemy + "'s HP: <enemy-hp>" + enemyHealth + "</enemy-hp>/<enemy-hp>" + enemyTempMax + "</enemy-hp>";
+        document.getElementById("numOfPots").innerText = numHealthPotions;
         updateScroll();
     }
 
-    // 
+    // Function runs when user clicks the attack button.
     this.clickedAttack = () => {
 
-        let damageDealt = Math.floor(Math.random() * playerAttackDamage);
-        let damageTaken = Math.floor(Math.random() * enemyAttackDamage);
+        let damageDealt = Math.floor(Math.random() * playerAttackDamage + (playerLevel - 1) * 3);
+        let damageTaken = Math.floor(Math.random() * enemyAttackDamage + (playerLevel - 1) * 2.5);
 
         enemyHealth -= damageDealt;
         if (enemyHealth < 0) {
             enemyHealth = 0;
             numberOfEnemiesSlain++;
+            score += 200;
         }
         playerHealth -= damageTaken;
         if (playerHealth < 0) playerHealth = 0;
 
-        display.innerHTML += "<hr>You strike the " + enemy + " for " + damageDealt + " damage.";
-        display.innerHTML += "<br>You recieve " + damageTaken + " in retaliation!";
+        display.innerHTML += "<hr>You strike the <bad-guy>" + enemy + "</bad-guy> for <dmg-taken>" + damageDealt + "</dmg-taken> damage.";
+        display.innerHTML += "<br>You recieve <dmg-dealt>" + damageTaken + "</dmg-dealt> in retaliation!";
 
         this.displayStats();
         if (playerHealth == 0) {
@@ -133,11 +139,12 @@ function Game() {
         }
         else if (enemyHealth == 0) {
             playerLevel++;
-            score += 200;
-            display.innerHTML += "<hr>The " + enemy + " was defeated!";
+            playerMaxHealth += ((playerLevel - 1) * 3);
+            playerHealth += 3;
+            display.innerHTML += "<hr>The <bad-guy>" + enemy + "</bad-guy> was defeated!";
             if (Math.floor(Math.random() * 100) < healthPotionDropChance) {
                 numHealthPotions++;
-                display.innerHTML += "<br>The " + enemy + " dropped a health potion!";
+                display.innerHTML += "<br>The <bad-guy>" + enemy + "</bad-guy> dropped a health potion!";
                 display.innerHTML += "<br>You now have " + numHealthPotions + " health potion(s).";
             }
             gameState = 2;
@@ -146,13 +153,14 @@ function Game() {
         updateScroll();
     }
 
+    // Function runs when user clicks the potion button.
     this.clickedDrinkPotion = () => {
         if (playerHealth === playerMaxHealth)
             display.innerHTML += "<br>You are already at max health";
         else if (numHealthPotions > 0 && playerHealth < playerMaxHealth) {
             playerHealth += healthPotionHealAmount;
             numHealthPotions--;
-            display.innerHTML += "<hr>You drink a health potion, healing for " + healthPotionHealAmount + ".";
+            display.innerHTML += "<hr>You drink a health potion, healing for <hp-pot>" + healthPotionHealAmount + "</hp-pot>.";
             display.innerHTML += "<br>You have " + numHealthPotions + " health potions left.";
             if (playerHealth > playerMaxHealth)
                 playerHealth = playerMaxHealth;
@@ -163,6 +171,7 @@ function Game() {
         updateScroll();
     }
 
+    // Function runs when user clicks the run button.
     this.clickedRun = () => {
         numberOfTimesRan++;
         if (score == 0) {
@@ -170,12 +179,11 @@ function Game() {
         }
         score -= 75;
         if (score < 0) score = 0;
-        numberOfTimesRan++;
-        display.innerHTML += "<hr>You ran away from the " + enemy + ".";
         this.runGameLoop();
         updateScroll();
     }
 
+    // Function gets called when the player dies (true) or when they decide to quit (false).
     this.cueGameOver = (died) => {
         gameState = 0;
         this.changeButtons(gameState);
@@ -192,6 +200,7 @@ function Game() {
         updateScroll();
     }
 
+    // Function gets called when the player defeats an enemy.
     this.cuePostBattleScript = () => {
         this.changeButtons(2);
         // Display: "What would you like to do now?\n" + "1. Continue fighting\n" + "2. Exit dungeon");
@@ -200,24 +209,34 @@ function Game() {
     }
 }
 
-function createGameFrame() {
-    document.getElementById("game-frame").innerHTML =
-        '<div id="stats-display"></div>\
-        <p id="activity-display"></p>\
-       <div id="button-container">\
-            <button class="btn-100 game-btn" onclick="game.startGame()">New Game</button>\
-            <button class="btn-33 game-btn" onclick="game.clickedAttack()">\
-            <img class="game-btn-icon" src="icons/attack.png">Attack</button>\
-            <button class="btn-33 game-btn" onclick="game.clickedDrinkPotion()">\
-            <img class="game-btn-icon" src="icons/potion.png">Potion</button>\
-            <button class="btn-33 game-btn" onclick="game.clickedRun()">\
-            <img class="game-btn-icon" src="icons/run.png">Run</button>\
-            <button class="btn-50 game-btn" onclick="game.runGameLoop()">Continue</button>\
-            <button class="btn-50 game-btn" onclick="game.cueGameOver(false)">End Game</button>\
-        </div>'
-}
-
+// Function that gets called at the end of the game loop to scroll the element to the bottom.
 function updateScroll() {
     var element = document.getElementById("activity-display");
     element.scrollTop = element.scrollHeight;
+}
+
+// Function that will bring up the game instructions.
+function showHowToPlay() {
+    document.getElementById("htp-frame").setAttribute('src', "howToPlay.html");
+}
+
+// Function that generates the core layout of the game.
+function createGameFrame() {
+    document.getElementById("game-container").innerHTML =
+        '<div id="game-frame">\
+            <div id="stats-display"></div>\
+            <p id="activity-display"></p>\
+            <div id="button-container">\
+                <button class="btn-50 game-btn menu-btn" onclick="game.startGame()">New Game</button>\
+                <button class="btn-50 game-btn menu-btn" onclick="showHowToPlay()">How To Play</button>\
+                <button class="btn-33 game-btn combat-btn" onclick="game.clickedAttack()">\
+                <img class="game-btn-icon" src="icons/attack.png">Attack</button>\
+                <button class="btn-33 game-btn combat-btn" onclick="game.clickedDrinkPotion()">\
+                <img class="game-btn-icon" src="icons/potion.png">Potion (<span id="numOfPots"></span>)</button>\
+                <button class="btn-33 game-btn combat-btn" onclick="game.clickedRun()">\
+                <img class="game-btn-icon" src="icons/run.png">Run</button>\
+                <button class="btn-50 game-btn ooc-btn" onclick="game.runGameLoop()">Continue</button>\
+                <button class="btn-50 game-btn ooc-btn" onclick="game.cueGameOver(false)">End Game</button>\
+            </div>\
+        </div> <iframe id="htp-frame" src=""></iframe>';
 }
