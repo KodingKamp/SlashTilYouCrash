@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,51 +11,76 @@
     <script src="game.js"></script>
     <title>Slash ~Til You Crash</title>
     <style>
-        #game-frame{
-            color: #eee;
-            background: #123;
-            width: 300px;
-            padding: 10px;
+        bad-guy {
+            color: rgb(57, 180, 218);
         }
+
+        dmg-taken, enemy-hp {
+            color: rgb(209, 38, 38);
+        }
+
+        dmg-dealt, player-hp {
+            color: rgb(238, 166, 71);
+        }
+
+        hp-pot {
+            color: rgb(102, 211, 102);
+        }
+
+        #game-frame {
+            color: #eee;
+            background: rgb(0, 0, 0);
+            width: 300px;
+            padding: 5px;
+        }
+
         #stats-display {
             border-bottom: solid rgb(71, 71, 71) 1px;
             color: rgb(71, 71, 71);
             background: rgb(80, 112, 172);
             margin: 0;
         }
+
         #activity-display {
             height: 300px;
             overflow: hidden;
             margin: 0;
         }
-        #button-container{
+
+        #button-container {
             height: 91.2px;
             font-size: 0;
             padding: 0;
             margin: 0;
         }
+
         .game-btn {
             height: 90px;
             color: rgb(71, 71, 71);
             font-size: 16px;
-            border-radius: 5px;
         }
+
         .btn-100 {
             width: 100%;
         }
+
         .btn-50 {
             width: 50%;
         }
+
         .btn-33 {
             width: 33.33%;
         }
-        .game-btn-icon{
+
+        .game-btn-icon {
             width: 64px;
             height: 64px;
         }
     </style>
 </head>
+
 <body>
-    <div id="game-frame"></div>
+    <div id="game-container"></div>
 </body>
+
 </html>
