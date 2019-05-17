@@ -174,12 +174,25 @@ function Game() {
     // Function runs when user clicks the run button.
     this.clickedRun = () => {
         numberOfTimesRan++;
-        if (score == 0) {
-            display.innerHTML += "<small>At this point, you might as well start over.</small>"
-        }
+        // if (score == 0 && playerHealth !== playerMaxHealth) {
+        //     display.innerHTML += "<br><b><small>At this point, you might as well start over.</small></b>"
+        // }
         score -= 75;
         if (score < 0) score = 0;
-        this.runGameLoop();
+        if (Math.random() < .5) {
+            display.innerHTML += "<hr>You were unsuccessful in trying to flee.";
+            let damageTaken = Math.floor(Math.random() * enemyAttackDamage + (playerLevel - 1) * 2.5);
+            playerHealth -= damageTaken;
+            display.innerHTML += "<br>You recieve <dmg-dealt>" + damageTaken + "</dmg-dealt> in retaliation!";
+            this.displayStats();
+            if (playerHealth < 0) {
+                playerHealth = 0;
+                display.innerHTML += "<hr>You have taken too much damage, you are too weak to go on!";
+                this.cueGameOver();
+            }
+        } else {
+            this.runGameLoop();
+        }
         updateScroll();
     }
 
