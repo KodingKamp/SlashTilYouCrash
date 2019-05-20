@@ -4,9 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="player.js"></script>
+    <!-- <script src="player.js"></script>
     <script src="enemies.js"></script>
-    <script src="game.js"></script>
+    <script src="game.js"></script> -->
+    <script src="scripts/Globals.js"></script>
+    <script src="scripts/Player.js"></script>
+    <script src="scripts/Enemy.js"></script>
+    <script src="scripts/Game.js"></script>
+    <script src="scripts/STYC.js"></script>
     <title>Slash ~Til You Crash</title>
     <style>
         bad-guy {
@@ -33,10 +38,11 @@
         }
 
         #stats-display {
-            border-bottom: solid rgb(71, 71, 71) 1px;
-            color: rgb(71, 71, 71);
-            background: rgb(80, 112, 172);
+            border-bottom: outset rgb(71, 71, 71) 7px;
+            background: rgb(58, 58, 58);
             margin: 0;
+            color:#eee;
+            padding: 5px;
         }
 
         #activity-display {

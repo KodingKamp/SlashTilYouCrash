@@ -1,5 +1,5 @@
 // Global Game variable
-var game, started = false;
+let game, started = false;
 
 // Functions to run on load.
 window.onload = () => {
@@ -20,9 +20,9 @@ function displayMainMenu() {
 
 // Game Object
 function Game() {
-    var enemyHealth, enemy, score, numberOfEnemiesSlain, numberOfTimesRan, enemyTempMax;
-    var gameState = 0;
-    var display = document.getElementById("activity-display");
+    let enemyHealth, enemy, score, numberOfEnemiesSlain, numberOfTimesRan, enemyTempMax;
+    let gameState = 0;
+    let display = document.getElementById("activity-display");
 
     enemyAttackDamage += (playerLevel * 1.5);
 
@@ -224,7 +224,7 @@ function Game() {
 
 // Function that gets called at the end of the game loop to scroll the element to the bottom.
 function updateScroll() {
-    var element = document.getElementById("activity-display");
+    let element = document.getElementById("activity-display");
     element.scrollTop = element.scrollHeight;
 }
 
@@ -245,7 +245,7 @@ function createGameFrame() {
                 <button class="btn-33 game-btn combat-btn" onclick="game.clickedAttack()">\
                 <img class="game-btn-icon" src="icons/attack.png">Attack</button>\
                 <button class="btn-33 game-btn combat-btn" onclick="game.clickedDrinkPotion()">\
-                <img class="game-btn-icon" src="icons/potion.png">Potion (<span id="numOfPots"></span>)</button>\
+                <img class="game-btn-icon" src="icons/potion.png">Potion<span id="numOfPots"></span></button>\
                 <button class="btn-33 game-btn combat-btn" onclick="game.clickedRun()">\
                 <img class="game-btn-icon" src="icons/run.png">Run</button>\
                 <button class="btn-50 game-btn ooc-btn" onclick="game.runGameLoop()">Continue</button>\
