@@ -5,24 +5,16 @@ class Player {
         this.health = this.maxHealth;
         this.attack = 35;
         this.potions = 3;        
-        console.log("Player's Attack: " + this.attack);
+        console.log(`Player's Attack: ${this.attack}`);
     }
 
-    get lvl() {
-        return this.level;
-    }
+    get lvl() { return this.level; }
 
-    get maxHP() {
-        return this.maxHealth;
-    }
+    get maxHP() { return this.maxHealth; }
 
-    get hp() {
-        return this.health;
-    }
+    get hp() { return this.health; }
 
-    get numOfPotions() {
-        return this.potions;
-    }
+    get numOfPotions() { return this.potions; }
 
     hpCheckOverflow() {
         this.health = (this.health > this.maxHealth) ? 
@@ -31,15 +23,15 @@ class Player {
 
     levelUp(n = 1) {
         this.level += n;
-        this.attack += this.level * 2.5;
-        this.maxHealth += this.level * 3;
+        this.attack += this.level * 1.95;
+        this.maxHealth += this.level * 7;
         this.heal(Math.ceil(Math.pow(this.level, 1.5)));
-        console.log("Player's Attack: " + this.attack);
+        console.log(`Player's Attack: ${this.attack}`);
     }
 
     gainPotion() {
         this.potions++;
-        appendToDisplay("<br>You now have " + this.potions + " potion(s) of healing.");
+        appendToDisplay(`<br>You now have ${this.potions} potion(s) of healing.`);
     }
 
     heal(x = -1) {
@@ -57,8 +49,9 @@ class Player {
         // Has potions but less than max health
         else if (this.potions > 0 && this.health < this.maxHealth){ // Has potions and NOT at max health
             this.potions--;
-            this.health += potionHealAmount;
-            appendToDisplay("<hr>You drink a potion of healing, healing for <hp-pot>" + potionHealAmount + "</hp-pot>.");
+            let amountHealed = potionHealAmount + (this.level - 1) * 6;
+            this.health += amountHealed;
+            appendToDisplay(`<hr>You drink a potion of healing, healing for <hp-pot>${amountHealed}</hp-pot>.`);
         }
         // Has potions but greater than max health.
         else {
@@ -82,6 +75,6 @@ class Player {
         }
         // Correct health underflow when taking damage.
         if ((this.health -= damage) < 0) this.health = 0;
-        appendToDisplay("<br>You recieve <dmg-taken>" + damage + "</dmg-taken> in retalization!");
+        appendToDisplay(`<br>You recieve <dmg-taken>${damage}</dmg-taken> in retaliation!`);
     }
 }
