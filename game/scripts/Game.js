@@ -135,7 +135,7 @@ class Game {
         // Unsuccessful run attempt
         if (Math.random() * 100 < runChance) {
             appendToDisplay("<hr>You were unsuccessful in trying to flee.");
-            this.player.takeDamage(this.enemy.attack());
+            this.player.takeDamage(this.enemy.power());
             this.runStatsUpdate();
             if (this.player.hp === 0) this.runPlayerDied();
         }
