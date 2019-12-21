@@ -3,6 +3,8 @@ class Game {
         this.score = 0;
         this.numberOfEnemiesSlain = 0;
         this.numberOfTimesRan = 0;
+        this.numberOfPotionsBought = 0;
+        this.numberOfPotionsUsed = 0;
         this.player = new Player();
         this.enemy;
         this.gameState = 0;
@@ -20,6 +22,10 @@ class Game {
      *              2 = Post Battle
      *                  continue => game.generateNewEncounter();
      *                  exit game => game.runGameOver();
+     *              3 = Potion Merchant
+     *                  continue => game.generateNewEncounter();
+     *                  buy potion => game.runBuyPotion();
+     *                  exit game =>game.runGameOver();
      */
     changeGameState(s) {
         this.gameState = s;
@@ -56,10 +62,7 @@ class Game {
     }
 
     runStatsUpdate(postbattle){
-        if (postbattle)
-            updateStats(this.score, this.player, this.enemy, true);
-        else 
-            updateStats(this.score, this.player, this.enemy);
+        updateStats(this.score, this.player, this.enemy);
     }
 
     generateNewEncounter() {    // beginning of game loop
@@ -80,23 +83,23 @@ class Game {
         }
         else
             this.player.takeDamage(this.enemy.power());
-        this.runStatsUpdate(true);
+        this.runStatsUpdate();
 
         // If enemy dies, add score
         if (this.enemy.hp === 0) {
             this.numberOfEnemiesSlain++;
-            this.score += 200;
+            this.score += 200 + 50 * (Math.floor(this.player.lvl/10));
             appendToDisplay(`<br>The <bad-guy>${this.enemy.name}</bad-guy> was defeated!`);
             // If the player also died, end the game,
             if (this.player.hp === 0) {
-                this.runStatsUpdate(true);
+                this.runStatsUpdate();
                 this.runPlayerDied();
             }
             // but if player still alive, continue.
             else {
                 this.player.levelUp();
                 this.runDropChance();
-                this.runStatsUpdate(true);
+                this.runStatsUpdate();
                 if ((this.player.lvl - 1) % 5 === 0 && this.score >= this.potionPrice) {
                     this.runMerchantAppears();
                 } 
@@ -115,7 +118,8 @@ class Game {
     }
 
     runDrinkPotion() {
-        this.player.heal();
+        if (this.player.heal())
+            this.numberOfPotionsUsed++;
         this.runStatsUpdate();
     }
 
@@ -147,10 +151,12 @@ class Game {
     runGameOver(died = true) {
         this.changeGameState(0);
         let message = "<hr>";
-        if (died) message += "You limp out of the dungeon, weak from battle.<br>";
+        if (died) message += "You limp out of the dungeon, weak from battle.<br><br>";
         message += `Ending Score: ${this.score}
-            <br>Number of Enemies Slain: ${this.numberOfEnemiesSlain}
+            <br>Number of Enemies slain: ${this.numberOfEnemiesSlain}
             <br>Number of Times ran: ${this.numberOfTimesRan}
+            <br>Number of Potions used: ${this.numberOfPotionsUsed}
+            <br>Number of Potions purchased: ${this.numberOfPotionsBought}
             <br><br> ~~~~~~~~~ Thanks for playing ~~~~~~~~~`;
         appendToDisplay(message);
 
@@ -179,6 +185,7 @@ class Game {
             appendToDisplay(message);
             this.player.gainPotion();
             this.score -= this.potionPrice;
+            this.numberOfPotionsBought++;
             this.runStatsUpdate();
         }
     }

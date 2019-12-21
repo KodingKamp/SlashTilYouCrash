@@ -3,6 +3,7 @@
  *      Globals.js
  *      Player.js
  *      Enemy.js
+ *      Databse.js
  *      Game.js
  *      STYC.js (this)
  */

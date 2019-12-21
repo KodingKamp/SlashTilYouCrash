@@ -37,30 +37,36 @@ class Player {
     heal(x = -1) {
         if (x !== -1) {
             this.health += x;
+            // Correct health overflow when healing.
+            this.hpCheckOverflow();
+            return false;
         }
         // Does not have potions
         else if (this.potions <= 0) {
             appendToDisplay("<br>You have no potions of healing left!<br>Defeat enemies for a chance to get one!");
+            return false;
         }
         // Has potions but at max health
         else if (this.potions > 0 && this.health === this.maxHealth) {
             appendToDisplay("<br>You are already at max health");
+            return false;
         }
         // Has potions but less than max health
         else if (this.potions > 0 && this.health < this.maxHealth){ // Has potions and NOT at max health
             this.potions--;
-            let amountHealed = potionHealAmount + (this.level - 1) * 6;
+            let amountHealed = potionHealAmount + (this.level - 1) * 8;
             this.health += amountHealed;
+            this.hpCheckOverflow();
             appendToDisplay(`<hr>You drink a potion of healing, healing for <hp-pot>${amountHealed}</hp-pot>.`);
+            return true;
         }
         // Has potions but greater than max health.
         else {
             appendToDisplay("You've been caught cheating! error h001", true);
             // Stop Game Loop
             game = null;
+            return false;
         }
-        // Correct health overflow when healing.
-        this.hpCheckOverflow();
     }
 
     power() {
