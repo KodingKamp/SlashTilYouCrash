@@ -39,11 +39,12 @@ class Game {
             case 1:
                 btnContainer.innerHTML =
                     `<button class="btn-33 game-btn combat-btn" onclick="game.runCombat()">
-                    <img class="game-btn-icon" src="assets/images/game/attack.png">Attack</button>
+                    <img class="game-btn-icon" src="icons/attack.png">Attack</button>
                     <button class="btn-33 game-btn combat-btn" onclick="game.runDrinkPotion()">
-                    <img class="game-btn-icon" src="assets/images/game/potion.png">Potion<span id="numOfPots"></span></button>
+                    <img class="game-btn-icon" src="icons/potion.png">Potion<span id="numOfPots"></span></button>
                     <button class="btn-33 game-btn combat-btn" onclick="game.runEvade()">
-                    <img class="game-btn-icon" src="assets/images/game/run.png">Run</button>`;
+                    <img class="game-btn-icon" src="icons/run.png">Run</button>`;
+                    // change src to be "assets/images/game/image.png" for actual repo
                 break;
             case 2:
                 btnContainer.innerHTML =
