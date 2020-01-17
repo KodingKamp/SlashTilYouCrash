@@ -28,7 +28,6 @@ class Game {
          */
         const changeGameState = (s) => {
             gameState = s;
-            console.log(`GAME STATE: ${gameState}`);
             let btnContainer = document.getElementById("button-container");
             switch (s) {
                 case 0:
@@ -93,8 +92,8 @@ class Game {
         
         const caughtCheating = () => {
             changeGameState(-1);
-            console.error("I DON'T THINK SO, CHEATER!");
-            confirm("HEY, STOP CHEATING!");
+            console.error("Something has gone wrong!");
+            confirm("An Error Has Occurred!");
         }
 
         this.generateNewEncounter = () => {    // beginning of game loop
@@ -177,7 +176,6 @@ class Game {
 
             // Unsuccessful run attempt
             if (Math.random() * 100 < runChance) {
-                console.log("blah!");
                 appendToDisplay("<hr>You were unsuccessful in trying to flee.");
                 player.takeDamage(enemy.power());
                 runStatsUpdate();
