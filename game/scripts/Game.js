@@ -1,193 +1,233 @@
 class Game {
     constructor() {
-        this.score = 0;
-        this.numberOfEnemiesSlain = 0;
-        this.numberOfTimesRan = 0;
-        this.numberOfPotionsBought = 0;
-        this.numberOfPotionsUsed = 0;
-        this.player = new Player();
-        this.enemy;
-        this.gameState = 0;
-        this.potionPrice = 150;
-        this.generateNewEncounter();
-    }
+        // Private variables and methods
+        let score = 0;
+        let numberOfEnemiesSlain = 0;
+        let numberOfTimesRan = 0;
+        let numberOfPotionsBought = 0;
+        let numberOfPotionsUsed = 0;
+        let player = new Player();
+        let enemy;
+        let gameState = 0;
+        let potionPrice = 150;
 
-    /**
-     * Game states: 0 = Main Menu
-     *                  new game => game = new Game();
-     *              1 = In Battle
-     *                  attack => game.runCombat();
-     *                  drink potion => game.player.heal();
-     *                  run => game.runEvade();
-     *              2 = Post Battle
-     *                  continue => game.generateNewEncounter();
-     *                  exit game => game.runGameOver();
-     *              3 = Potion Merchant
-     *                  continue => game.generateNewEncounter();
-     *                  buy potion => game.runBuyPotion();
-     *                  exit game =>game.runGameOver();
-     */
-    changeGameState(s) {
-        this.gameState = s;
-        let btnContainer = document.getElementById("button-container");
-        switch (s) {
-            case 0:
-                btnContainer.innerHTML =
-                    `<button class="btn-100 game-btn menu-btn"
-                    onclick="setNewGame()">New Game</button>`;
-                break;
-            case 1:
-                btnContainer.innerHTML =
-                    `<button class="btn-33 game-btn combat-btn" onclick="game.runCombat()">
-                    <img class="game-btn-icon" src="icons/attack.png">Attack</button>
-                    <button class="btn-33 game-btn combat-btn" onclick="game.runDrinkPotion()">
-                    <img class="game-btn-icon" src="icons/potion.png">Potion<span id="numOfPots"></span></button>
-                    <button class="btn-33 game-btn combat-btn" onclick="game.runEvade()">
-                    <img class="game-btn-icon" src="icons/run.png">Run</button>`;
-                    // change src to be "assets/images/game/image.png" for actual repo
-                break;
-            case 2:
-                btnContainer.innerHTML =
-                    `<button class="btn-50 game-btn ooc-btn" onclick="game.generateNewEncounter()">Continue</button>
-                    <button class="btn-50 game-btn ooc-btn" onclick="game.runGameOver(false)">End Game</button>`;
-                break;
-            case 3:
-                btnContainer.innerHTML = 
-                    `<button class="btn-33 game-btn ooc-btn" onclick="game.generateNewEncounter()">Continue</button>
-                    <button class="btn-33 game-btn ooc-btn" onclick="game.runBuyPotion()">Buy Potion</button>
-                    <button class="btn-33 game-btn ooc-btn" onclick="game.runGameOver(false)">End Game</button>`;
-                break;
-            default:
-                break;
-        }
-    }
-
-    runStatsUpdate(postbattle){
-        updateStats(this.score, this.player, this.enemy);
-    }
-
-    generateNewEncounter() {    // beginning of game loop
-        if (this.gameState !== 1)
-            this.changeGameState(1);
-
-        this.enemy = new Enemy(this.player.lvl);
-        this.runStatsUpdate();
-        appendToDisplay("<br>What would you like to do?");
-    }
-
-    runCombat() {
-        this.enemy.takeDamage(this.player.power());
-
-        // Adding small change of player dodging atttack.
-        if (Math.floor(Math.random() * 20) == 0) {
-            appendToDisplay("<br>You managed to dodge the attack!")
-        }
-        else
-            this.player.takeDamage(this.enemy.power());
-        this.runStatsUpdate();
-
-        // If enemy dies, add score
-        if (this.enemy.hp === 0) {
-            this.numberOfEnemiesSlain++;
-            this.score += 200 + 50 * (Math.floor(this.player.lvl/10));
-            appendToDisplay(`<br>The <bad-guy>${this.enemy.name}</bad-guy> was defeated!`);
-            // If the player also died, end the game,
-            if (this.player.hp === 0) {
-                this.runStatsUpdate();
-                this.runPlayerDied();
+        /**
+         * Game states: 0 = Main Menu
+         *                  new game => game = new Game();
+         *              1 = In Battle
+         *                  attack => game.runCombat();
+         *                  drink potion => game.DrinkPotion();
+         *                  run => game.runEvade();
+         *              2 = Post Battle
+         *                  continue => game.generateNewEncounter();
+         *                  exit game => game.runGameOver();
+         *              3 = Potion Merchant
+         *                  continue => game.generateNewEncounter();
+         *                  buy potion => game.runBuyPotion();
+         *                  exit game =>game.runGameOver();
+         */
+        const changeGameState = (s) => {
+            gameState = s;
+            console.log(`GAME STATE: ${gameState}`);
+            let btnContainer = document.getElementById("button-container");
+            switch (s) {
+                case 0:
+                    btnContainer.innerHTML =
+                        `<button class="btn-100 game-btn menu-btn"
+                        onclick="setNewGame()">New Game</button>`;
+                    break;
+                case 1:
+                    btnContainer.innerHTML =
+                        `<button id="attackBtn" class="btn-33 game-btn combat-btn" onclick="game.runCombat()">
+                        <img class="game-btn-icon" src="assets/images/game/attack.png"><br>Attack</button>
+                        <button id="potionBtn" class="btn-33 game-btn combat-btn" onclick="game.runDrinkPotion()">
+                        <img class="game-btn-icon" src="assets/images/game/potion.png"><br>Potion</button>
+                        <button id="runBtn" class="btn-33 game-btn combat-btn" onclick="game.runEvade()">
+                        <img class="game-btn-icon" src="assets/images/game/run.png"><br>Run</button>`;
+                    break;
+                case 2:
+                    btnContainer.innerHTML =
+                        `<button class="btn-50 game-btn ooc-btn" onclick="game.generateNewEncounter()">Continue</button>
+                        <button class="btn-50 game-btn ooc-btn" onclick="game.runGameOver(false)">End Game</button>`;
+                    break;
+                case 3:
+                    btnContainer.innerHTML = 
+                        `<button class="btn-33 game-btn ooc-btn" onclick="game.generateNewEncounter()">Continue</button>
+                        <button class="btn-33 game-btn ooc-btn" onclick="game.runBuyPotion()">Buy Potion</button>
+                        <button class="btn-33 game-btn ooc-btn" onclick="game.runGameOver(false)">End Game</button>`;
+                    break;
+                case -1:
+                    document.getElementById("game-container").innerHTML = "<h1>I DON'T THINK SO, CHEATER!</h1>";
+                    break;
+                default:
+                    break;
             }
-            // but if player still alive, continue.
+        }
+
+        const runStatsUpdate = () => {
+            updateStats(score, player, enemy);
+        }
+
+        const runPostBattle = () => {
+            changeGameState(2);
+            appendToDisplay("<hr>What would you like to do now?");
+        }
+        
+        const runPlayerDied = () => {
+            appendToDisplay("<br>You've taken too much damage, you are too weak to go on!");
+            this.runGameOver();
+        }
+        
+        const runDropChance = () => {
+            if (Math.floor(Math.random() * 100) < potionDropChance) {
+                appendToDisplay(`<br>The <bad-guy>${enemy.name}</bad-guy> dropped a potion of healing!`);
+                player.gainPotion();
+            }
+        }
+        
+        const runMerchantAppears = () => {
+            changeGameState(3);
+            appendToDisplay(`<hr>You spot a merchant selling potions!
+            <br>"Would you like to purchase some potions for ${potionPrice} points?`);
+        }
+        
+        const caughtCheating = () => {
+            changeGameState(-1);
+            console.error("I DON'T THINK SO, CHEATER!");
+            confirm("HEY, STOP CHEATING!");
+        }
+
+        this.generateNewEncounter = () => {    // beginning of game loop
+            // Anti-cheat
+            if (gameState === 1 ) {
+                caughtCheating()
+                return;
+            }
+            
+            changeGameState(1);
+            
+            enemy = new Enemy(player.lvl);
+            runStatsUpdate();
+            appendToDisplay("<br>What would you like to do?");
+        }
+
+        // Public methods
+
+        this.runCombat = () => {
+            // Anti-cheat
+            if (gameState !== 1 ) {
+                caughtCheating()
+                return;
+            }
+            
+            enemy.takeDamage(player.power());
+            
+            // Adding small change of player dodging atttack.
+            if (Math.floor(Math.random() * 20) == 0) {
+                appendToDisplay("<br>You managed to dodge the attack!")
+            }
+            else
+            player.takeDamage(enemy.power());
+            runStatsUpdate();
+            
+            // If enemy dies, add score
+            if (enemy.hp === 0) {
+                numberOfEnemiesSlain++;
+                score += 200 + 50 * (Math.floor(player.lvl/10));
+                appendToDisplay(`<br>The <bad-guy>${enemy.name}</bad-guy> was defeated!`);
+                // If the player also died, end the game,
+                if (player.hp === 0) {
+                    runStatsUpdate();
+                    runPlayerDied();
+                }
+                // but if player still alive, continue.
+                else {
+                    player.levelUp();
+                    runDropChance();
+                    runStatsUpdate();
+                    if ((player.lvl - 1) % 5 === 0 && score >= potionPrice) {
+                        runMerchantAppears();
+                    } 
+                    else 
+                        runPostBattle();
+                }
+            }
+            // If only player dies, end the game.
+            else if (player.hp === 0)
+                runPlayerDied();
+        }
+
+        this.runDrinkPotion = () => {
+            // Anti-cheat
+            if (gameState !== 1 ) {
+                caughtCheating()
+                return;
+            }
+            
+            if (player.heal())
+                numberOfPotionsUsed++;
+                runStatsUpdate();
+        }
+
+        this.runEvade = () => {
+            numberOfTimesRan++;
+            // Score Underflow Protection
+            if ((score -= 75) < 0) 
+                score = 0;
+
+            // Unsuccessful run attempt
+            if (Math.random() * 100 < runChance) {
+                console.log("blah!");
+                appendToDisplay("<hr>You were unsuccessful in trying to flee.");
+                player.takeDamage(enemy.power());
+                runStatsUpdate();
+                if (player.hp === 0) runPlayerDied();
+            }
+            // Successful run attempt
             else {
-                this.player.levelUp();
-                this.runDropChance();
-                this.runStatsUpdate();
-                if ((this.player.lvl - 1) % 5 === 0 && this.score >= this.potionPrice) {
-                    this.runMerchantAppears();
-                } 
-                else 
-                    this.runContinue();
+                changeGameState(-2);
+                this.generateNewEncounter();
             }
         }
-        // If only player dies, end the game.
-        else if (this.player.hp === 0)
-            this.runPlayerDied();
-    }
 
-    runPlayerDied() {
-        appendToDisplay("<br>You've taken too much damage, you are too weak to go on!");
-        this.runGameOver();
-    }
-
-    runDrinkPotion() {
-        if (this.player.heal())
-            this.numberOfPotionsUsed++;
-        this.runStatsUpdate();
-    }
-
-    runDropChance() {
-        if (Math.floor(Math.random() * 100) < potionDropChance) {
-            appendToDisplay(`<br>The <bad-guy>${this.enemy.name}</bad-guy> dropped a potion of healing!`);
-            this.player.gainPotion();
-        }
-    }
-
-    runEvade() {
-        this.numberOfTimesRan++;
-        // Score Underflow Protection
-        if ((this.score -= 75) < 0) 
-            this.score = 0;
-
-        // Unsuccessful run attempt
-        if (Math.random() * 100 < runChance) {
-            appendToDisplay("<hr>You were unsuccessful in trying to flee.");
-            this.player.takeDamage(this.enemy.power());
-            this.runStatsUpdate();
-            if (this.player.hp === 0) this.runPlayerDied();
-        }
-        // Successful run attempt
-        else
-            this.generateNewEncounter();
-    }
-
-    runGameOver(died = true) {
-        this.changeGameState(0);
-        let message = "<hr>";
-        if (died) message += "You limp out of the dungeon, weak from battle.<br><br>";
-        message += `Ending Score: ${this.score}
-            <br>Number of Enemies slain: ${this.numberOfEnemiesSlain}
-            <br>Number of Times ran: ${this.numberOfTimesRan}
-            <br>Number of Potions used: ${this.numberOfPotionsUsed}
-            <br>Number of Potions purchased: ${this.numberOfPotionsBought}
-            <br><br> ~~~~~~~~~ Thanks for playing ~~~~~~~~~`;
-        appendToDisplay(message);
-
-        // create a database object to send new score that will post to the database.
-        let database = new Database();
-        database.sendScoreToDatabase(this.score);
-    }
-
-    runContinue() {
-        this.changeGameState(2);
-        appendToDisplay("<hr>What would you like to do now?");
-    }
-
-    runMerchantAppears() {
-        this.changeGameState(3);
-        appendToDisplay(`<hr>You spot a merchant selling potions!
-            <br>"Would you like to purchase some potions for ${this.potionPrice} points?`);
-    }
-
-    runBuyPotion() {
-        if (this.score < this.potionPrice) {
-            appendToDisplay("<br>You do not have enough points.");
-            this.runContinue();
-        } else {
-            let message = `<hr>You bought a potion!`;
+        this.runGameOver = (died = true) => {
+            changeGameState(0);
+            let message = "<hr>";
+            if (died) message += "You limp out of the dungeon, weak from battle.<br><br>";
+            message += `Ending Score: ${score}
+                <br>Number of Enemies slain: ${numberOfEnemiesSlain}
+                <br>Number of Times ran: ${numberOfTimesRan}
+                <br>Number of Potions used: ${numberOfPotionsUsed}
+                <br>Number of Potions purchased: ${numberOfPotionsBought}
+                <br><br> ~~~~~~~~ Thanks for playing ~~~~~~~~`;
             appendToDisplay(message);
-            this.player.gainPotion();
-            this.score -= this.potionPrice;
-            this.numberOfPotionsBought++;
-            this.runStatsUpdate();
+
+            // create a database object to send new score that will post to the database.
+            let database = new Database();
+            database.sendStatsToDatabase(score, player.lvl);
         }
+
+
+        this.runBuyPotion = () => {
+            // Anti-cheat
+            if (gameState !== 3) {
+                caughtCheating()
+                return;
+            }
+
+            if (score < potionPrice) {
+                appendToDisplay("<br>You do not have enough points.");
+                runPostBattle();
+            } else {
+                let message = `<hr>You bought a potion!`;
+                appendToDisplay(message);
+                player.gainPotion();
+                score -= potionPrice;
+                numberOfPotionsBought++;
+                runStatsUpdate();
+            }
+        }
+
+        this.generateNewEncounter();
     }
 }
