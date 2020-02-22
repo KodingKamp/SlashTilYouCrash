@@ -20,23 +20,29 @@ this.enemyList = [
 function createGameFrame() {
     document.getElementById("game-container").innerHTML = 
         `<div id="game-frame">
-            <div id="stats-display"></div>
-            <p id="activity-display"></p>
-            <div id="button-container"></div>
+            <div class="game-frame-section gfs-large">
+                <p id="activity-display"></p>
+            </div>
+            <div class="game-frame-section gfs-small">
+                <div id="stats-display"></div>
+                <div id="button-container"></div>
+            </div>
         </div>`;
 }
 
 function generateMainMenu() {
-    let message = `<h1>STYC</h1>
-    STYC, Slash Til You Crash, is text-based hack & slash adventure game.
+    let message = `<h2>STYC</h2>
+    <bigger-letter>S</bigger-letter>&nbsp;&nbsp;TYC, Slash Til You Crash, is text-based hack & slash adventure game.
     <br>Something Something
     <br>blah blah blah
     <br>
-    <br>Click "New Game" to being!`;
+    <br>Click "New Game" to being!
+    <br><br><br><br><br>
+    <div class="game-btn menu-btn"
+        onclick="setNewGame()">&gt; New Game</div>`;
     appendToDisplay(message);
     document.getElementById("button-container").innerHTML =
-        `<button class="btn-100 game-btn menu-btn"
-        onclick="setNewGame()">New Game</button>`;
+        ``;
 }
 
 function setNewGame() {

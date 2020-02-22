@@ -6,7 +6,7 @@ class Enemy {
         this.maxHealth = Math.ceil(Math.random() * this.maxPossibleHealth);
         this.health = this.maxHealth;
         this.attack = enemyStartingMaxAttack + 1.006 * this.level * (this.level - 1);
-        appendToDisplay(`A <bad-guy>${this.type}</bad-guy> has appeared!`, true);
+        appendToDisplay(`<bigger-letter>A</bigger-letter>&nbsp;&nbsp; <bad-guy>${this.type}</bad-guy> has appeared!`, true);
         console.log(`Enemy's Attack: ${this.attack}`);
     }
 

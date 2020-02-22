@@ -15,71 +15,107 @@
     <script src="scripts/STYC.js"></script>
     <title>Slash ~Til You Crash</title>
     <style>
+        #game-container {
+            height: auto;
+            background-image: url("assets/images/background/Old-Book.png");
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: auto;
+            min-height: 800px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-size: 16px;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+        }
+        
+        bad-guy, dmg-taken, enemy-hp, dmg-dealt, player-hp, hp-pot
+        {
+            font-weight: bold;
+            font-size: 18px;
+        }
+
         bad-guy {
-            color: rgb(57, 180, 218);
+            color: rgb(184, 110, 14);
         }
 
         dmg-taken, enemy-hp {
-            color: rgb(209, 38, 38);
+            color: rgb(167, 27, 27);
         }
 
         dmg-dealt, player-hp {
-            color: rgb(238, 166, 71);
+            color: rgb(14, 121, 153);
         }
 
         hp-pot {
-            color: rgb(102, 211, 102);
+            color: rgb(17, 145, 17);
+        }
+
+        big-letter {
+            font-size: 56px;
+            display: inline;
+        }
+
+        bigger-letter {
+            font-size: 60px;
+            display: inline;
         }
 
         #game-frame {
-            color: #eee;
-            background: rgb(0, 0, 0);
-            width: 300px;
+            color: rgb(7, 6, 59);
             padding: 5px;
+            display: flex;
+            height: 650px;
+            width: 900px;
+            flex-direction: row;
+            justify-content: space-evenly;
+            align-items: center;
         }
 
-        #stats-display {
-            border-bottom: outset rgb(71, 71, 71) 7px;
-            background: rgb(58, 58, 58);
-            margin: 0;
-            color:#eee;
-            padding: 5px;
+        .game-frame-section {
+            height: 520px;
+            width: 300px;
+            padding-bottom: 30px;
+        }
+
+        .gfs-large {
+        }
+
+        .gfs-small {
         }
 
         #activity-display {
-            height: 300px;
-            overflow: hidden;
+            overflow-y: hidden;
             margin: 0;
+            height: 100%;
+        }
+
+        #stats-display {
+            font-size: 1.1em;
+            padding: 5px;
+            margin-bottom: 80px;
+            height: 150px;
         }
 
         #button-container {
-            height: 91.2px;
             font-size: 0;
             padding: 0;
             margin: 0;
         }
 
         .game-btn {
-            height: 90px;
             color: rgb(71, 71, 71);
-            font-size: 16px;
-        }
-
-        .btn-100 {
-            width: 100%;
-        }
-
-        .btn-50 {
-            width: 50%;
-        }
-
-        .btn-33 {
-            width: 33.33%;
-        }
-
-        .game-btn-icon {
-            width: 64px;
-            height: 64px;
+            font-size: 22px;
+            margin: 15px 0;
+            cursor: pointer;
+            -webkit-touch-callout: none; /* iOS Safari */
+            -webkit-user-select: none; /* Safari */
+            -khtml-user-select: none; /* Konqueror HTML */
+            -moz-user-select: none; /* Old versions of Firefox */
+            -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                supported by Chrome, Opera and Firefox */
         }
     </style>
 </head>
