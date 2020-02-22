@@ -18,6 +18,7 @@ class Game {
          *                  attack => game.runCombat();
          *                  drink potion => game.DrinkPotion();
          *                  run => game.runEvade();
+         *                  exit game => game.runGameOver();
          *              2 = Post Battle
          *                  continue => game.generateNewEncounter();
          *                  exit game => game.runGameOver();
@@ -33,7 +34,9 @@ class Game {
                 case 0:
                     btnContainer.innerHTML =
                         `<div class="game-btn menu-btn"
-                        onclick="setNewGame()">&gt; New Game</div>`;
+                            onclick="setNewGame()">&gt; New Campaign</div>
+                        <div class="game-btn menu btn"
+                            onclick="generateMainMenu()">&gt; Back to Main</div>`;
                     break;
                 case 1:
                     btnContainer.innerHTML =
@@ -42,7 +45,9 @@ class Game {
                         <div id="potionBtn" class="game-btn combat-btn" onclick="game.runDrinkPotion()">
                         <img src="assets/images/game/potion.png" height="22px">&nbsp;Drink a Potion</div>
                         <div id="runBtn" class="game-btn combat-btn" onclick="game.runEvade()">
-                        <img src="assets/images/game/run.png" height="22px">&nbsp;Attempt to Run</div>`;
+                        <img src="assets/images/game/run.png" height="22px">&nbsp;Attempt to Run</div>
+                        <br>
+                        <div class="game-btn ooc-btn" onclick="game.runGameOver(false)">Quit Game</div>`;
                     break;
                 case 2:
                     btnContainer.innerHTML =
