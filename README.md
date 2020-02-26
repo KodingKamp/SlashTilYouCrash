@@ -7,5 +7,10 @@ Then, the war trumpets sing as you tighten your grip on your farm tool and widen
 <br><br>
 Worry not if you are slain, your name will go down in history as being the greatest heroes who died defending this village against a plethora of enemies. Children of the future will read about how many you were able to stop before you fell! So let's see how many you can slash until you crash!
 <hr>
+
+# Developement
+<img src="https://raw.githubusercontent.com/KodingKamp/SlashTilYouCrash/master/STYC_FiniteStateMachine.png">
+STYC was created following the Finite State Machine pattern. Traditionally, a game would have a game loop that cycles continuously: checking a state parameter and executing code respective to the current state. Although HTML web page exists as a static state, I replicated the game loop by first initializing a game state variable and changing the game state with each action (in this case: button clicks) according to the chart above.
+<hr>
 Developer & Art work provided by Kamp Duong. 
 <br>KodingKamp 2020
