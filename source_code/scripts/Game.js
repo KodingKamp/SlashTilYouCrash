@@ -2,6 +2,7 @@ class Game {
     constructor() {
         // Private variables and methods
         let score = 0;
+        let highestScore = 0;
         let numberOfEnemiesSlain = 0;
         let numberOfTimesRan = 0;
         let numberOfPotionsBought = 0;
@@ -138,6 +139,9 @@ class Game {
             if (enemy.hp === 0) {
                 numberOfEnemiesSlain++;
                 score += 200 + 50 * (Math.floor(player.lvl/10));
+                if (score > highestScore) {
+                    highestScore = score;
+                }
                 appendToDisplay(`<br>The <bad-guy>${enemy.name}</bad-guy> was defeated!`);
                 // If the player also died, end the game,
                 if (player.hp === 0) {
@@ -197,7 +201,7 @@ class Game {
             changeGameState(0);
             let message = "<hr>";
             if (died) message += "You limp out of the dungeon, weak from battle.<br><br>";
-            message += `Ending Score: ${score}
+            message += `Highest Score Achieved: ${highestScore}
                 <br>Number of Enemies slain: ${numberOfEnemiesSlain}
                 <br>Number of Times ran: ${numberOfTimesRan}
                 <br>Number of Potions used: ${numberOfPotionsUsed}
@@ -208,7 +212,7 @@ class Game {
 
             // create a database object to send new score that will post to the database.
             let database = new Database();
-            database.sendStatsToDatabase(score, player.lvl);
+            database.sendStatsToDatabase(highestScore, player.lvl);
         }
 
 
