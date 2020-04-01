@@ -1,4 +1,4 @@
-# <a href="https://github.com/KodingKamp/SlashTilYouCrash">SlashTilYouCrash</a>
+# <a href="https://styc.app">SlashTilYouCrash</a>
 <img src="https://raw.githubusercontent.com/KodingKamp/SlashTilYouCrash/master/Screenshot1.png">
 <hr>
 STYC is a hack-n-slash adventure game where you are trying to rip through as many enemies as you can before you fall in battle, leaving your village open to extinction. Two neighboring villages have been at peace for 1,000 years after the Great-300-Year, G3Y, war that ended the feud. However, unknown to those who reside in Hakiboro Village, the tribe of Junditar have been growing in numbers: passively waiting for the perfect time to strike! And on this beautiful day, as you are tending to your crops, you feel the ground start to tremble. You look up to see an onslaught of Junditarians charging towards your village.
