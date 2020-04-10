@@ -52,7 +52,7 @@ class Game {
                 case 2:
                     btnContainer.innerHTML =
                         `<div class="game-btn ooc-btn" onclick="game.generateNewEncounter()">Continue</div>
-                        <div class="game-btn ooc-btn" onclick="game.runGameOver(false)">End Game</div>`;
+                        <div class="game-btn ooc-btn end-game" onclick="game.runGameOver(false)">End Game</div>`;
                     break;
                 case 3:
                     btnContainer.innerHTML = 
