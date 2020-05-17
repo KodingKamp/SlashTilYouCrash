@@ -5,7 +5,6 @@ class Player {
         this.health = this.maxHealth;
         this.attack = 35;
         this.potions = 3;        
-        console.log(`Player's Attack: ${this.attack}`);
     }
 
     get lvl() { return this.level; }
@@ -26,7 +25,6 @@ class Player {
         this.attack += this.level * 1.95;
         this.maxHealth += this.level * 7;
         this.heal(Math.ceil(Math.pow(this.level, 1.5)));
-        console.log(`Player's Attack: ${this.attack}`);
     }
 
     gainPotion() {

@@ -7,7 +7,6 @@ class Enemy {
         this.health = this.maxHealth;
         this.attack = enemyStartingMaxAttack + 1.006 * this.level * (this.level - 1);
         appendToDisplay(`<bigger-letter>A</bigger-letter>&nbsp;&nbsp; <bad-guy>${this.type}</bad-guy> has appeared!`, true);
-        console.log(`Enemy's Attack: ${this.attack}`);
     }
 
     get name() { return this.type; }
