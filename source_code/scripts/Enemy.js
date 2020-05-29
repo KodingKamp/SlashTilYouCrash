@@ -20,6 +20,6 @@ class Enemy {
     takeDamage(damage) {
         // Correct health underflow when taking damage.
         if((this.health -= damage) < 0) this.health = 0;
-        appendToDisplay(`<hr>You strike the <bad-guy>${this.type}</bad-guy> for <dmg-dealt>${damage}</dmg-dealt> damage.`);
+        appendToDisplay(`You strike the <bad-guy>${this.type}</bad-guy> for <dmg-dealt>${damage}</dmg-dealt> damage.`);
     }
 }

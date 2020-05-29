@@ -68,7 +68,7 @@ class Player {
     }
 
     power() {
-        return Math.floor(Math.random() * this.attack);
+        return Math.floor(Math.random() * this.attack + (1.5 * this.level));
     }
 
     takeDamage(damage) {
