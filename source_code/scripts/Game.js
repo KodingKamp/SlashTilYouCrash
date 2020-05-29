@@ -152,7 +152,6 @@ class Game {
 
                 // and if the player also died
                 if (player.hp === 0) {
-                    runStatsUpdate(); // to update score
                     runPlayerDied();
                 }
 
@@ -160,7 +159,6 @@ class Game {
                 else {
                     player.levelUp();
                     runDropChance();
-                    runStatsUpdate();
 
                     // If level is a mod of 5, spawn merchant
                     if ((player.lvl - 1) % 5 === 0 && score >= potionPrice) {
