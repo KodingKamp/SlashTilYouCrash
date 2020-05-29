@@ -124,14 +124,21 @@ class Game {
                 caughtCheating()
                 return;
             }
-            
+            appendToDisplay("<hr>")
+
             // Your Attack:
-            enemy.takeDamage(player.power());
+            let critRoll = Math.floor(Math.random() * 20);
+            let critMultiplier = 1;
+            if (critRoll == 19) {
+                critMultiplier = 2;
+                appendToDisplay("<i>You caught the enemy off guard!<i><br>")
+            }
+            enemy.takeDamage(player.power() * critMultiplier);
             
             // Enemy Attack:
             // Adding small change of player dodging atttack.
             if (Math.floor(Math.random() * 20) == 0) {
-                appendToDisplay("<br>You managed to dodge the attack!")
+                appendToDisplay("<br><i>You managed to dodge the attack!<i>")
             }
             else {
                 player.takeDamage(enemy.power());
