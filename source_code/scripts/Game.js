@@ -117,6 +117,7 @@ class Game {
 
         // Public methods
 
+        // Combat Sequence
         this.runCombat = () => {
             // Anti-cheat
             if (gameState !== 1 ) {
@@ -124,31 +125,37 @@ class Game {
                 return;
             }
             
+            // Your Attack:
             enemy.takeDamage(player.power());
             
+            // Enemy Attack:
             // Adding small change of player dodging atttack.
             if (Math.floor(Math.random() * 20) == 0) {
                 appendToDisplay("<br>You managed to dodge the attack!")
             }
-            else
-            player.takeDamage(enemy.power());
-            runStatsUpdate();
+            else {
+                player.takeDamage(enemy.power());
+            }
             
-            // If enemy dies, add score
+            // If enemy dies
             if (enemy.hp === 0) {
                 numberOfEnemiesSlain++;
                 score += 200 + 50 * (Math.floor(player.lvl/10));
                 appendToDisplay(`<br>The <bad-guy>${enemy.name}</bad-guy> was defeated!`);
-                // If the player also died, end the game,
+
+                // and if the player also died
                 if (player.hp === 0) {
-                    runStatsUpdate();
+                    runStatsUpdate(); // to update score
                     runPlayerDied();
                 }
+
                 // but if player still alive, continue.
                 else {
                     player.levelUp();
                     runDropChance();
                     runStatsUpdate();
+
+                    // If level is a mod of 5, spawn merchant
                     if ((player.lvl - 1) % 5 === 0 && score >= potionPrice) {
                         runMerchantAppears();
                     } 
@@ -159,6 +166,9 @@ class Game {
             // If only player dies, end the game.
             else if (player.hp === 0)
                 runPlayerDied();
+
+            // Update Stats Display
+            runStatsUpdate();
         }
 
         this.runDrinkPotion = () => {
@@ -196,7 +206,7 @@ class Game {
         this.runGameOver = (died = true) => {
             changeGameState(0);
             let message = "<hr>";
-            if (died) message += "You limp out of the dungeon, weak from battle.<br><br>";
+            if (died) message += "You limp out of the dungeon, <br>weak from battle.<br><br>";
             message += `Ending Score: ${score}
                 <br>Number of Enemies slain: ${numberOfEnemiesSlain}
                 <br>Number of Times ran: ${numberOfTimesRan}
